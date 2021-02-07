@@ -101,149 +101,193 @@ function buildCharts(county1, county2) {
 
     console.log(Pop_county1);
     console.log(Pop_county2);
-    console.log(years);
+    console.log(date);
 
 
     //--------MY PLOT--------
     function buildPlot() {
             
-      Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv', function(err, rows){
-      
-      // function unpack(rows, key) {
-      //   return rows.map(function(row) { return row[key]; });
-      // }
-
-      // const arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length
-        
+         
       var button_layer_2_height = 1.2
-      var high = unpack(rows, 'AAPL.High').map(x => parseFloat(x))
-      var low = unpack(rows, 'AAPL.Low').map(x => parseFloat(x))
-      var date = years
-
-
-      var high_ave = arrAvg(high)
-      var high_max = Math.max(...high)
-      var low_ave = arrAvg(low)
-      var low_min = Math.min(...low)
-
+      
       var data = [{
-          x: date, 
+          x: date,                          //Population (persons)
           y: Pop_county1, 
           mode: 'lines',
-          name: `${county1}`,  //county1
-          marker: {color: '#33CFA5'}
+          name: `${county1}`,  
+          marker: {color: 'royalblue'}
         },
         {
           x: date, 
           y: Pop_county2,
-          name: 'Low',
+          name: `${county2}`,
           mode: 'lines',
           marker: {color: '#F06A6A'}
         },
-        {
-          x: date, 
-          y: date.map(a => high_ave),
+        {     
+          x: date,                         //Per capita personal income
+          y: PCI_county1,
           mode: 'lines',
-          name: 'Low Average',
-          line: {color: '#33CFA5', dash: 'dash'},
+          name: `${county1}`,
+          line: {color: 'royalblue'},
           visible: false
         },
-        
         {
-          x: date, 
-          y: date.map(a => low_ave),
+          x: date,                        
+          y: PCI_county2,
           mode: 'lines',
-          name: 'High Average',
+          name: `${county2}`,
           visible: false,
-          line: {color: '#F06A6A', dash: 'dash'}
+          line: {color: '#F06A6A'}
+        },
+        {
+          x: date,                          // Per capita net earnings 
+          y: PCE_county1,
+          mode: 'lines',
+          name: `${county1}`,
+          visible: false,
+          line: {color: 'royalblue'}
+        },
+        {
+          x: date,                        
+          y: PCE_county2,
+          mode: 'lines',
+          name: `${county2}`,
+          visible: false,
+          line: {color: '#F06A6A'}
+        },
+        {
+          x: date,                          // Total employment (number of jobs)
+          y: TE_county1,
+          mode: 'lines',
+          name: `${county1}`,
+          visible: false,
+          line: {color: 'royalblue'}
+        },
+        {
+          x: date,                       
+          y: TE_county2,
+          mode: 'lines',
+          name: `${county2}`,
+          visible: false,
+          line: {color: '#F06A6A'}
+        },
+        {
+          x: date,                        // Average earnings per job (dollars)          
+          y: AEJ_county1,
+          mode: 'lines',
+          name: `${county1}`,
+          visible: false,
+          line: {color: 'royalblue'}
         },
         {
           x: date, 
-          y: date.map(a => low_ave),
+          y: AEJ_county2,
           mode: 'lines',
-          name: 'High Average',
+          name: `${county2}`,
           visible: false,
-          line: {color: '#F06A6A', dash: 'dash'}
+          line: {color: '#F06A6A'}
+        },
+        { 
+          x: date,                        // Average earnings per job (dollars)          
+          y: AWS_county1,
+          mode: 'lines',
+          name: `${county1}`,
+          visible: false,
+          line: {color: 'royalblue'}
         },
         {
           x: date, 
-          y: date.map(a => low_ave),
+          y: AWS_county2,
           mode: 'lines',
-          name: 'High Average',
+          name: `${county2}`,
           visible: false,
-          line: {color: '#F06A6A', dash: 'dash'}
-        },
-        
-      ]
+          line: {color: '#F06A6A'}
+        }
+        ]
 
-      var high_annotations = [
-          {
-            text: 'High Average:<br>' + high_ave.toFixed(2), 
-            x: '2016-03-01', 
-            y: high_ave, 
-            yref: 'y', xref: 'x', 
-            ay: -40, ax: 0
-          },
-          {
-            text: 'High Max:<br>' + high_max.toFixed(2), 
-            x: date[high.indexOf(high_max)], 
-            y: high_max, 
-            yref: 'y', xref: 'x', 
-            ay: -40, ax: 0
-          },  
-      ]
+      // var high_annotations = [
+      //     {
+      //       text: 'High Average:<br>' + high_ave.toFixed(2), 
+      //       x: '2016-03-01', 
+      //       y: high_ave, 
+      //       yref: 'y', xref: 'x', 
+      //       ay: -40, ax: 0
+      //     },
+      //     {
+      //       text: 'High Max:<br>' + high_max.toFixed(2), 
+      //       x: date[high.indexOf(high_max)], 
+      //       y: high_max, 
+      //       yref: 'y', xref: 'x', 
+      //       ay: -40, ax: 0
+      //     },  
+      //   ]
 
-      var low_annotations = [{
-            text: 'Low Average:<br>' + low_ave.toFixed(2), 
-            x: '2015-05-01', 
-            y: low_ave, 
-            yref: 'y', xref: 'x', 
-            ay: 40, ax: 0
-          },
-          {
-            text: 'Low Min:<br>' + low_min.toFixed(2), 
-            x: date[low.indexOf(low_min)], 
-            y: low_min, 
-            yref: 'y', xref: 'x', 
-            ay: 40, ax: 0
-          }
-      ]
+      // var low_annotations = [{
+      //       text: 'Low Average:<br>' + low_ave.toFixed(2), 
+      //       x: '2015-05-01', 
+      //       y: low_ave, 
+      //       yref: 'y', xref: 'x', 
+      //       ay: 40, ax: 0
+      //     },
+      //     {
+      //       text: 'Low Min:<br>' + low_min.toFixed(2), 
+      //       x: date[low.indexOf(low_min)], 
+      //       y: low_min, 
+      //       yref: 'y', xref: 'x', 
+      //       ay: 40, ax: 0
+      //     }
+      // ]
 
       var updatemenus=[
           {
               buttons: [   
                   {
-                      args: [{'visible': [true, true, false, false]},
-                            {'title': 'Yahoo High',
-                              'annotations': high_annotations}],
-                      label: 'Per Capita Income',
+                      args: [{'visible': [true, true, false, false, false, false, false, false, false, false, false, false]},
+                            {'title': `${county1} vs ${county2} <br> Population Comparison`/*,
+                  'annotations': high_annotations*/}],
+                      label: 'Population',
                       method: 'update'
                   },
                   {
-                      args: [{'visible': [false, false, true, true,]},
-                            {'title': 'Yahoo Low',
-                              'annotations': low_annotations}],
-                      label: 'Low',
+                      args: [{'visible': [false, false, true, true, false, false, false, false, false, false, false, false]},
+                            {'title': `${county1} vs ${county2} <br> Personal Income Per Capita Comparison`/*,
+                  'annotations': low_annotations*/}],
+                      label: 'Personal Income <br> Per Capita',
                       method: 'update'
                   },
                   {
-                      args: [{'visible': [true, true, true, true,]},
-                            {'title': 'Yahoo',
-                              'annotations': [...low_annotations, ...high_annotations]}],
-                      label: 'Both',
+                      args: [{'visible': [false, false, false, false, true, true, false, false, false, false, false, false]},
+                            {'title': `${county1} vs ${county2} <br> Net Earnings Per Capita Comparison`/*,
+                  'annotations': [...low_annotations, ...high_annotations]*/}],
+                      label: 'Net Earnings <br> Per Capita',
                       method: 'update'
                   },
                   {
-                      args: [{'visible': [true, false, true, false,]},
-                            {'title': 'Yahoo',
-                              'annotations': []}],
-                      label: 'Reset',
+                    args: [{'visible': [false, false, false, false, false, false, true, true, false, false, false, false]},
+                          {'title': `${county1} vs ${county2} <br> Total Employment (Number of Jobs) Comparison`/*,
+                  'annotations': high_annotations*/}],
+                    label: 'Total Employment <br> (jobs)',
+                    method: 'update'
+                  },
+                  {
+                    args: [{'visible': [false, false, false, false, false, false, false, false, true, true, false, false]},
+                          {'title': `${county1} vs ${county2} <br> Average Earnings Per Job Comparison`/*,
+                  'annotations': high_annotations*/}],
+                    label: 'Average Earnings <br> Per Job',
+                    method: 'update'
+                  },
+                  {
+                      args: [{'visible': [false, false, false, false, false, false, false, false, false, false, true, true,]},
+                            {'title': `${county1} vs ${county2} <br> Average Wages & Salaries Comparison`/*,
+                  'annotations': []*/}],
+                      label: 'Average Wages <br> & Salaries',
                       method: 'update'
                   },
                   
               ],
               direction: 'left',
-              pad: {'r': 10, 't': 10},
+              pad: {'r': 10, 't': 40},
               showactive: true,
               type: 'buttons',
               x: 0.1,
@@ -255,15 +299,15 @@ function buildCharts(county1, county2) {
       ]
 
       var layout = {
-          title: `${county1} vs ${county2} Comparisons`,
+          title: `${county1} vs ${county2} <br> Population Comparison`,
           updatemenus: updatemenus,
-          showlegend: false
+          showlegend: true
       }
 
 
       Plotly.plot("myDiv", data, layout, {showSendToCloud: true});
 
-      });
+    
       
     };
         
