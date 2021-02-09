@@ -189,7 +189,7 @@ function buildCharts(county1, county2) {
           line: {color: '#F06A6A'}
         },
         { 
-          x: date,                        // Average earnings per job (dollars)          
+          x: date,                        // Average Wages and Salaries (dollars)          
           y: AWS_county1,
           mode: 'lines',
           name: `${county1}`,
