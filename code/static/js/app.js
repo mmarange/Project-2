@@ -417,3 +417,11 @@ var selector_county1 = d3.select('#city1');
 var selector_county2 = d3.select('#city2');
 selector_county1.on('change', handleChange);
 selector_county2.on('change', handleChange);
+
+
+function processSubmit() {
+  input_tokens = d3.selectAll('.input-token');
+  input_tokens;
+}
+
+d3.select('#submit').on('click', processSubmit);

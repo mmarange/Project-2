@@ -173,17 +173,18 @@ function renderMap(state, county1_data, county2_data) {
         County2 : county2_Layer    
       };
 
-      var myMap = L.map("map-county1", {
-        center: [37.09, -95.71],
+      var myMap_County1= L.map("map-county1", {
+        center: [40.417198, -82.355904],
         zoom: 4,
         layers: [lightmap, county1_Layer, county2_Layer]
+        
 
       });
 
     
       L.control.layers(baseMaps2, overlayMaps2, {
         collapsed: false
-      }).addTo(myMap);
+      }).addTo(myMap_County1);
 
     });
   };
